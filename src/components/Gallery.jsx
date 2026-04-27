@@ -34,30 +34,34 @@ const Gallery = () => {
           ))}
         </div>
 
-        {/* Mobile Stacked View */}
-        <div className="md:hidden relative h-[500px] flex items-center justify-center">
+        {/* Mobile Scrollable View */}
+        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-6 pb-10 -mx-6 px-6 no-scrollbar">
           {images.map((img, i) => (
             <motion.div
               key={i}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              style={{ zIndex: images.length - i }}
-              initial={{ scale: 1 - i * 0.05, y: i * 20, opacity: 1 - i * 0.2 }}
-              whileInView={{ opacity: 1 }}
-              className="absolute w-full max-w-[300px] aspect-[4/5] rounded-[30px] overflow-hidden shadow-2xl glass border border-white/10"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="flex-none w-[280px] aspect-[4/5] rounded-[30px] overflow-hidden shadow-2xl glass border border-white/10 snap-center relative"
             >
               <img 
                 src={img.src} 
                 alt={img.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-midnight/90 to-transparent flex flex-col justify-end p-8">
-                <div className="text-brand-green font-black text-2xl uppercase tracking-tighter">
-                  {img.title}
-                </div>
-                <div className="text-white/40 text-[10px] font-bold uppercase tracking-[0.2em] mt-2">
-                  Slide to explore
-                </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/20 to-transparent flex flex-col justify-end p-6">
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="text-brand-green font-black text-xl uppercase tracking-tighter leading-none mb-1">
+                    {img.title}
+                  </div>
+                  <div className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">
+                    The 7Am Club • 2024
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           ))}
@@ -80,11 +84,11 @@ const GalleryCard = ({ img, index }) => (
       alt={img.title}
       className="w-full h-auto transition-transform duration-1000 group-hover:scale-110"
     />
-    <div className="absolute inset-0 bg-gradient-to-t from-midnight/90 via-midnight/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-10">
-      <div className="text-brand-green font-black text-2xl translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+    <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-10">
+      <div className="text-brand-green font-black text-2xl uppercase tracking-tighter leading-none mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
         {img.title}
       </div>
-      <div className="text-white/50 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75 uppercase tracking-widest font-bold mt-2">
+      <div className="text-white/60 text-xs font-bold uppercase tracking-[0.2em] translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
         The 7Am Club • 2024
       </div>
     </div>

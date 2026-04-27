@@ -56,8 +56,9 @@ class Particle {
 
     this.vel.x += this.acc.x
     this.vel.y += this.acc.y
-    this.pos.x += this.vel.x
-    this.pos.y += this.vel.y
+    // Faster movement scaling
+    this.pos.x += this.vel.x * 1.5
+    this.pos.y += this.vel.y * 1.5
     this.acc.x = 0
     this.acc.y = 0
   }
@@ -75,11 +76,15 @@ class Particle {
 
     ctx.fillStyle = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`
     if (drawAsPoints) {
-      ctx.fillRect(this.pos.x, this.pos.y, 2.5, 2.5)
+      ctx.fillRect(this.pos.x, this.pos.y, 3, 3) // Slightly larger points
     } else {
+      // Subtle glow for brightness
+      ctx.shadowBlur = 10
+      ctx.shadowColor = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`
       ctx.beginPath()
       ctx.arc(this.pos.x, this.pos.y, this.particleSize / 2, 0, Math.PI * 2)
       ctx.fill()
+      ctx.shadowBlur = 0
     }
   }
 
@@ -229,11 +234,11 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
           b: particle.startColor.b + (particle.targetColor.b - particle.startColor.b) * particle.colorWeight,
         }
         
-        // Vary the color slightly for a richer look - Darker Green/Olive variations
+        // Brighter, more vibrant Neon Green variations
         particle.targetColor = {
-          r: 51 + Math.floor(Math.random() * 53), // 51 to 104
-          g: 105 + Math.floor(Math.random() * 54), // 105 to 159
-          b: 30 + Math.floor(Math.random() * 26)  // 30 to 56
+          r: 140 + Math.floor(Math.random() * 60), // 140 to 200
+          g: 220 + Math.floor(Math.random() * 35), // 220 to 255
+          b: 50 + Math.floor(Math.random() * 50)   // 50 to 100
         }
         particle.colorWeight = 0
         particle.target.x = x
@@ -292,7 +297,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
     }
 
     frameCountRef.current++
-    if (frameCountRef.current % 120 === 0) { // Faster word change (2s at 60fps)
+    if (frameCountRef.current % 100 === 0) { // Faster word change
       wordIndexRef.current = (wordIndexRef.current + 1) % words.length
       nextWord(words[wordIndexRef.current], canvas)
     }
