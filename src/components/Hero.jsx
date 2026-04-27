@@ -24,9 +24,9 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
-      {/* Full Page Particle Background */}
-      <div className="absolute inset-0 z-0 opacity-60">
+    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-transparent">
+      {/* Full Page Fixed Particle Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
         <ParticleTextEffect />
       </div>
 
@@ -37,9 +37,9 @@ const Hero = () => {
         className="container mx-auto px-6 relative z-10 text-center h-full flex flex-col justify-center"
       >
         <motion.div variants={itemVariants} className="mb-12 mt-10 md:mt-20">
-          <div className="h-16 md:h-32" />
+          <div className="h-8 md:h-24" />
           
-          <p className="max-w-xl mx-auto text-lg md:text-3xl text-white/90 mb-20 md:mb-32 font-bold leading-relaxed tracking-wide drop-shadow-2xl px-6 text-center">
+          <p className="max-w-xl mx-auto text-lg md:text-3xl text-white/90 mb-32 md:mb-40 font-bold leading-relaxed tracking-wide drop-shadow-2xl px-6 text-center">
             Every Weekday • 6 AM <br className="md:hidden" /> 
             • Subhash Stadium <br />
             Join Raipur's most inclusive <br className="md:hidden" /> fitness community. 
@@ -50,7 +50,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href="https://chat.whatsapp.com/random"
-              className="w-full md:w-auto px-8 md:px-12 py-4 md:py-6 bg-brand-green text-black rounded-xl md:rounded-2xl font-black text-lg md:text-2xl hover:shadow-[0_0_40px_rgba(104,159,56,0.6)] transition-all text-center"
+              className="w-full md:w-auto px-8 md:px-12 py-4 md:py-6 bg-brand-green text-black rounded-xl md:rounded-2xl font-black text-lg md:text-2xl hover:shadow-[0_0_40px_rgba(190,242,100,0.6)] transition-all text-center"
             >
               JOIN THE MOVEMENT
             </motion.a>

@@ -41,7 +41,7 @@ const Navbar = () => {
               href="https://chat.whatsapp.com/random" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-brand-green text-black px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest hover:shadow-[0_0_20px_rgba(104,159,56,0.4)] transition-all whitespace-nowrap"
+              className="bg-brand-green text-black px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest hover:shadow-[0_0_20px_rgba(190,242,100,0.4)] transition-all whitespace-nowrap"
             >
               JOIN CLUB
             </motion.a>

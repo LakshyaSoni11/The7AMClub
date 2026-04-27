@@ -76,15 +76,11 @@ class Particle {
 
     ctx.fillStyle = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`
     if (drawAsPoints) {
-      ctx.fillRect(this.pos.x, this.pos.y, 3, 3) // Slightly larger points
+      ctx.fillRect(this.pos.x, this.pos.y, 2.5, 2.5) // Reduced size for performance
     } else {
-      // Subtle glow for brightness
-      ctx.shadowBlur = 10
-      ctx.shadowColor = `rgb(${currentColor.r}, ${currentColor.g}, ${currentColor.b})`
       ctx.beginPath()
       ctx.arc(this.pos.x, this.pos.y, this.particleSize / 2, 0, Math.PI * 2)
       ctx.fill()
-      ctx.shadowBlur = 0
     }
   }
 
@@ -140,7 +136,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
   const [isMobile, setIsMobile] = useState(false)
-  const pixelSteps = isMobile ? 8 : 5
+  const pixelSteps = isMobile ? 18 : 8 // High steps = fewer particles = massive speed boost
   const drawAsPoints = isMobile
 
   const generateRandomPos = (x, y, mag) => {
@@ -177,9 +173,9 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
     offscreenCtx.textAlign = "center"
     offscreenCtx.textBaseline = "middle"
     // Place text in the gap between header and buttons
-    const yPos = isMobile ? canvas.height * 0.45 : canvas.height * 0.55
+    // Move text much higher on mobile to clear the buttons
+    const yPos = isMobile ? canvas.height * 0.28 : canvas.height * 0.52
     offscreenCtx.fillText(word, canvas.width / 2, yPos)
-
     const imageData = offscreenCtx.getImageData(0, 0, canvas.width, canvas.height)
     const pixels = imageData.data
 
@@ -223,7 +219,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
           particle.pos.y = randomPos.y
           particle.maxSpeed = Math.random() * 8 + 6 // Faster
           particle.maxForce = particle.maxSpeed * 0.08 // More agile
-          particle.particleSize = Math.random() * 3 + 3
+          particle.particleSize = Math.random() * 4 + 4
           particle.colorBlendRate = Math.random() * 0.04 + 0.01 // Faster color blend
           particles.push(particle)
         }
@@ -234,11 +230,11 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
           b: particle.startColor.b + (particle.targetColor.b - particle.startColor.b) * particle.colorWeight,
         }
         
-        // Brighter, more vibrant Neon Green variations
+        // Exactly matching the new Brand Neon Lime (#BEF264)
         particle.targetColor = {
-          r: 140 + Math.floor(Math.random() * 60), // 140 to 200
-          g: 220 + Math.floor(Math.random() * 35), // 220 to 255
-          b: 50 + Math.floor(Math.random() * 50)   // 50 to 100
+          r: 190,
+          g: 242,
+          b: 100
         }
         particle.colorWeight = 0
         particle.target.x = x
@@ -258,8 +254,16 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
     const ctx = canvas.getContext("2d")
     const particles = particlesRef.current
 
-    ctx.fillStyle = "rgba(5, 5, 5, 0.2)"
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    if (isMobile) {
+      // Clear completely on mobile for max performance
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+    } else {
+      // Trails for desktop only
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.globalCompositeOperation = 'source-over'
+    }
 
     for (let i = particles.length - 1; i >= 0; i--) {
       const particle = particles[i]
@@ -309,7 +313,7 @@ export function ParticleTextEffect({ words = DEFAULT_WORDS }) {
     const handleResize = () => {
       if (canvasRef.current) {
         const parent = canvasRef.current.parentElement
-        const width = parent.clientWidth
+        const width = parent.clientWidth || window.innerWidth
         const height = parent.clientHeight || window.innerHeight
         canvasRef.current.width = width
         canvasRef.current.height = height

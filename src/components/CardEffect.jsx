@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 const glowColorMap = {
   blue: { base: 220, spread: 200 },
   purple: { base: 280, spread: 300 },
-  green: { base: 88, spread: 200 }, // Updated to match new theme
+  green: { base: 82, spread: 20 }, // Matched to Neon Lime
   red: { base: 0, spread: 200 },
   orange: { base: 30, spread: 200 }
 };

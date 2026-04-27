@@ -6,8 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-brand-green: #689F38;
-  --color-brand-olive: #33691E;
+  --color-brand-green: #BEF264; /* Vibrant Neon Lime */
+  --color-brand-olive: #84CC16; /* Stronger Neon Lime */
   --color-midnight: #050505;
   --color-midnight-light: #0A0F05;
 
